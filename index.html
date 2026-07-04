@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>미식로드 — 맛집 추천</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container header__inner">
+      <a href="#" class="logo">
+        <span class="logo__icon">🍽</span>
+        <span class="logo__text">미식로드</span>
+      </a>
+      <nav class="nav">
+        <a href="#featured">추천</a>
+        <a href="#list">전체</a>
+        <a href="#about">소개</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero__overlay"></div>
+    <div class="hero__content">
+      <p class="hero__eyebrow">오늘 뭐 먹지?</p>
+      <h1 class="hero__title">당신을 위한 <em>맛집</em>을 찾아드립니다</h1>
+      <p class="hero__desc">지역·음식 종류·분위기로 필터링하고, 평점 높은 맛집을 한눈에 확인하세요.</p>
+      <div class="search-box">
+        <svg class="search-box__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+        </svg>
+        <input type="search" id="searchInput" class="search-box__input" placeholder="맛집 이름, 메뉴, 지역 검색..." autocomplete="off">
+      </div>
+      <div class="hero__stats">
+        <div class="stat"><strong id="totalCount">0</strong><span>등록 맛집</span></div>
+        <div class="stat"><strong id="avgRating">0</strong><span>평균 평점</span></div>
+        <div class="stat"><strong id="categoryCount">0</strong><span>음식 카테고리</span></div>
+      </div>
+    </div>
+  </section>
+
+  <nav class="category-nav" aria-label="음식 카테고리">
+    <div class="container category-nav__inner">
+      <div class="category-nav__head">
+        <p class="category-nav__eyebrow">Explore</p>
+        <h2 class="category-nav__title">음식 카테고리</h2>
+      </div>
+      <div class="category-nav__scroll">
+        <div id="topCategoryNav" class="category-nav__list"></div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main">
+    <section id="featured" class="section fade-in">
+      <div class="container">
+        <h2 class="section-title">에디터 추천</h2>
+        <p class="section-desc">이번 주 꼭 가봐야 할 맛집</p>
+        <div id="featuredGrid" class="featured-grid"></div>
+      </div>
+    </section>
+
+    <section id="list" class="section section--alt fade-in">
+      <div class="container">
+        <div class="section__head section__head--row">
+          <div>
+            <h2 id="listTitle" class="section-title section-title--left">전체 맛집</h2>
+            <p id="resultCount" class="section-desc section-desc--left">0개의 맛집</p>
+          </div>
+          <select id="sortSelect" class="sort-select" aria-label="정렬">
+            <option value="rating">평점 높은 순</option>
+            <option value="reviews">리뷰 많은 순</option>
+            <option value="name">이름순</option>
+          </select>
+        </div>
+
+        <div class="filters">
+          <div class="filter-group">
+            <span class="filter-label">지역</span>
+            <div id="areaFilters" class="filter-chips"></div>
+          </div>
+          <div class="filter-group">
+            <span class="filter-label">음식</span>
+            <div id="categoryFilters" class="filter-chips"></div>
+          </div>
+          <div class="filter-group">
+            <span class="filter-label">분위기</span>
+            <div id="moodFilters" class="filter-chips"></div>
+          </div>
+          <button type="button" id="resetFilters" class="btn-reset">필터 초기화</button>
+        </div>
+
+        <div id="restaurantGrid" class="restaurant-grid"></div>
+        <div id="emptyState" class="empty-state" hidden>
+          <span class="empty-state__icon">🔍</span>
+          <p>조건에 맞는 맛집이 없습니다.</p>
+          <button type="button" id="emptyReset" class="btn-primary">필터 초기화</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section fade-in">
+      <div class="container">
+        <h2 class="section-title">미식로드란?</h2>
+        <div class="about__card">
+          <p>실제 방문 후기와 평점을 바탕으로 엄선한 맛집 정보를 제공합니다. 데이트, 회식, 혼밥 등 상황에 맞는 맛집을 빠르게 찾아보세요.</p>
+          <ul class="about__features">
+            <li>✓ 지역·카테고리별 필터</li>
+            <li>✓ 실시간 검색</li>
+            <li>✓ 영업시간·가격대 정보</li>
+            <li>✓ 분위기 태그로 상황별 추천</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p>© 2026 미식로드 · 맛집 추천 서비스</p>
+    </div>
+  </footer>
+
+  <div id="modal" class="modal" hidden aria-hidden="true">
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button type="button" class="modal__close" data-close aria-label="닫기">&times;</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
